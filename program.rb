@@ -5,7 +5,7 @@ require_relative './lib/trie'
 
 names = []
 trie = Trie.new
-(1..100).each do |i|
+(1..100).each do |_i|
   name = Faker::Name.first_name
   trie = trie.add name, 10
   names.append name
