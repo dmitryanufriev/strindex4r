@@ -18,8 +18,8 @@ class CommonPrefix
   #
   # @return string, which is the longest common prefix between two words or empty string if no common prefix.
   def max
-    min_word_length = [@word_a.length, @word_b.length].min - 1
-    min_word_length.downto(0) do |prefix_size|
+    max_prefix_size = [@word_a.length, @word_b.length].min - 1
+    max_prefix_size.downto(0) do |prefix_size|
       prefix_a = @word_a[0..prefix_size]
       prefix_b = @word_b[0..prefix_size]
       return prefix_a if @ignore_case && prefix_a.casecmp(prefix_b).zero?
