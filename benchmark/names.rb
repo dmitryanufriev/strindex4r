@@ -1,106 +1,106 @@
 # frozen_string_literal: true
 
 module Names
-  ARRAY = %w(
-jody
-stephane
-rich
-valentin
-brady
-allen
-sterling
-richie
-arlen
-troy
-yolande
-mauro
-khalilah
-winford
-keith
-lynnette
-lance
-johnson
-ricardo
-vernon
-prince
-bev
-ezekiel
-garland
-timmy
-myra
-myrtle
-rosamond
-yu
-werner
-alec
-jewel
-bobbie
-lilli
-hui
-patricia
-devin
-norris
-titus
-emil
-omer
-wm
-pamala
-timothy
-alex
-lupe
-luis
-mao
-elenor
-fermin
-cleo
-chad
-brice
-sylvie
-odell
-naomi
-lee
-marcus
-ethan
-wynell
-audria
-louis
-jordan
-ivana
-jerrod
-warner
-queen
-marianna
-hilario
-adrianna
-rayford
-noelle
-eldon
-darren
-jc
-neva
-francis
-lissette
-trista
-joslyn
-gaylord
-magaret
-aubrey
-vincenzo
-jerry
-ralph
-marshall
-daphne
-arlen
-vada
-tommy
-dwain
-golden
-ellen
-alleen
-renae
-mindi
-nyla
-felicita
-george
-)
+  ARRAY = %w[
+    jody
+    stephane
+    rich
+    valentin
+    brady
+    allen
+    sterling
+    richie
+    arlen
+    troy
+    yolande
+    mauro
+    khalilah
+    winford
+    keith
+    lynnette
+    lance
+    johnson
+    ricardo
+    vernon
+    prince
+    bev
+    ezekiel
+    garland
+    timmy
+    myra
+    myrtle
+    rosamond
+    yu
+    werner
+    alec
+    jewel
+    bobbie
+    lilli
+    hui
+    patricia
+    devin
+    norris
+    titus
+    emil
+    omer
+    wm
+    pamala
+    timothy
+    alex
+    lupe
+    luis
+    mao
+    elenor
+    fermin
+    cleo
+    chad
+    brice
+    sylvie
+    odell
+    naomi
+    lee
+    marcus
+    ethan
+    wynell
+    audria
+    louis
+    jordan
+    ivana
+    jerrod
+    warner
+    queen
+    marianna
+    hilario
+    adrianna
+    rayford
+    noelle
+    eldon
+    darren
+    jc
+    neva
+    francis
+    lissette
+    trista
+    joslyn
+    gaylord
+    magaret
+    aubrey
+    vincenzo
+    jerry
+    ralph
+    marshall
+    daphne
+    arlen
+    vada
+    tommy
+    dwain
+    golden
+    ellen
+    alleen
+    renae
+    mindi
+    nyla
+    felicita
+    george
+  ].freeze
 end
