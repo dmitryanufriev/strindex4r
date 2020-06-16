@@ -11,9 +11,9 @@ class Trie
 
   # Add word and value to prefix tree.
   #
-  # @param word
-  # @param value
-  # @return prefix tree with added pair of word and value.
+  # @param [String] word
+  # @param [Object] value
+  # @return prefix tree with pair of the word and the value.
   def add(word, value)
     raise ArgumentError, "'word' can't be nil or empty" if word.nil? || word.blank?
 
