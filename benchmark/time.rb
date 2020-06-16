@@ -4,8 +4,7 @@ require 'benchmark'
 require_relative 'names'
 require_relative '../lib/trie'
 
-trie = Trie.new
-Names::ARRAY.each { |name| trie = trie.add name, 10 }
+trie = Names::ARRAY.reduce(Trie.new) { |tr, name| tr.add name, 10 }
 
 n = 50_000
 
@@ -18,7 +17,7 @@ Benchmark.bm do |benchmark|
     end
   end
 
-  benchmark.report("Trie\t\t\t") do
+  benchmark.report('Trie') do
     n.times do
       trie.values 'jody'
     end
@@ -26,17 +25,15 @@ Benchmark.bm do |benchmark|
 end
 
 Benchmark.bm do |benchmark|
-  benchmark.report("Array (at end)\t") do
+  benchmark.report('Array (at end)') do
     n.times do
       Names::ARRAY.select { |name| name.start_with? 'george' }
     end
   end
 
-  benchmark.report("Trie\t\t\t") do
+  benchmark.report('Trie') do
     n.times do
       trie.values 'george'
     end
   end
 end
-
-
