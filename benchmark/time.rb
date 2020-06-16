@@ -4,7 +4,7 @@ require 'benchmark'
 require_relative 'names'
 require_relative '../lib/trie'
 
-trie = Names::ARRAY.reduce(Trie.new) { |tr, name| tr.add name, 10 }
+trie = Names::ARRAY.reduce(Trie.new) { |the_trie, name| the_trie.add name, 10 }
 
 n = 50_000
 
