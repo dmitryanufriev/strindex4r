@@ -42,6 +42,17 @@ describe 'Trie::Node' do
       ]
     end
 
+    it 'prefix:hell - word:hello should add value to existing subnode' do
+      path = []
+      Trie::Node.new('a', [10].to_set).add('ab', 20).add('ab', 30).traverse do |depth, word, values|
+        path << [depth, word, values.to_a]
+      end
+      expect(path).to eql [
+        [0, 'a', [10]],
+        [1, 'b', [20, 30]]
+      ]
+    end
+
     it 'prefix:hello - word:hell should add new node' do
       path = []
       Trie::Node.new('hello', [10].to_set).add('hell', 20).traverse do |depth, word, values|
