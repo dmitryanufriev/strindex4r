@@ -19,7 +19,23 @@ describe 'CommonPrefix' do
     end
 
     it 'should return empty when different cases' do
-      expect(CommonPrefix.new('Hello', 'hello', false).max.empty?).to be true
+      expect(CommonPrefix.new('Hello', 'help', false).max.empty?).to be true
+    end
+
+    it 'should return empty string when first word is empty' do
+      expect(CommonPrefix.new('', 'help').max.empty?).to be true
+    end
+
+    it 'should return empty string when second word is empty' do
+      expect(CommonPrefix.new('hello', '').max.empty?).to be true
+    end
+
+    it 'should return empty string when first word is nil' do
+      expect(CommonPrefix.new(nil, 'help').max.empty?).to be true
+    end
+
+    it 'should return empty string when second word is nil' do
+      expect(CommonPrefix.new('hello', nil).max.empty?).to be true
     end
   end
 end

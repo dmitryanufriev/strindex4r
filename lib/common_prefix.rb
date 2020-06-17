@@ -7,14 +7,18 @@
 
 # Represents common prefix between two words.
 class CommonPrefix
+  # Common prefix between two words.
+  #
+  # @param [String] word_a is the first word.
+  # @param [String] word_b is the second word.
+  # @param [Boolean] ignore_case is the flag which specify type of words comparison, case sensitive or case insensitive.
   def initialize(word_a, word_b, ignore_case = true)
-    @word_a = word_a
-    @word_b = word_b
+    @word_a = word_a || ''
+    @word_b = word_b || ''
     @ignore_case = ignore_case
   end
 
-  # Returns a longest common prefix between two words passed into a constructor. For example, the longest common prefix
-  # between 'hello' and 'help' will be 'hel'.
+  # Returns a longest common prefix. For example, *'hel'* is the longest common prefix between *'hello'* and *'help'*.
   #
   # @return string, which is the longest common prefix between two words or empty string if no common prefix.
   def max
