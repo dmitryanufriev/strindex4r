@@ -1,3 +1,8 @@
+# Copyright (c) 2020 Dmitry Anufriev
+#
+# This software is released under the MIT License.
+# https://opensource.org/licenses/MIT
+
 # frozen_string_literal: true
 
 require_relative 'string'
@@ -19,36 +24,27 @@ class Trie
     # @return node with new value
     # @raise ArgumentError when word is nil or empty.
     def add(word, value)
-      raise ArgumentError, "Word can't be nil or empty" if word.nil? || word.blank?
-
       common_prefix = CommonPrefix.new(@prefix, word).max
       raise ArgumentError, "Node '#{@prefix}' has no common prefix with word '#{word}'" if common_prefix.blank?
 
-      # Case A: @prefix:hello - word:hello
-      if common_prefix.length == @prefix.length && common_prefix.length == word.length
-        return Node.new @prefix, @values << value, @descendants
-      end
-
       sffx_p = @prefix.suffix(common_prefix)
       sffx_w = word.suffix(common_prefix)
-      # Case B: @prefix:hell - word:hello
-      if sffx_p.empty?
-        key = sffx_w[0]
-        descendants = {}.merge @descendants
-        descendants[key] = descendants.key?(key) ? descendants[key].add(sffx_w, value) : Node.new(sffx_w, Set[value])
-        return Node.new common_prefix, @values, descendants
+      if sffx_p.empty? && sffx_w.empty? # Case A: @prefix:hello - word:hello
+        Node.new(@prefix, @values << value, @descendants)
+      elsif sffx_p.empty? # Case B: @prefix:hell - word:hello
+        Node.new @prefix, @values, @descendants.merge(
+          { sffx_w[0] => @descendants[sffx_w[0]]&.add(sffx_w, value) || Node.new(sffx_w, Set[value]) }
+        )
+      elsif sffx_w.empty? # Case C: @prefix:hello - word:hell
+        Node.new word, Set[value], {
+          sffx_p[0] => Node.new(sffx_p, @values, {}.merge(@descendants))
+        }
+      else # Case D: @prefix:hell -> word:help
+        Node.new common_prefix, Set[], {
+          sffx_p[0] => Node.new(sffx_p, @values, {}.merge(@descendants)),
+          sffx_w[0] => Node.new(sffx_w, Set[value])
+        }
       end
-      # Case C: @prefix:hello - word:hell
-      if sffx_w.empty?
-        descendants = { sffx_p[0] => Node.new(sffx_p, @values, {}.merge(@descendants)) }
-        return Node.new common_prefix, Set[value], descendants
-      end
-      # Case D: @prefix:hell -> word:help
-      descendants = {
-        sffx_p[0] => Node.new(sffx_p, @values, {}.merge(@descendants)),
-        sffx_w[0] => Node.new(sffx_w, Set[value])
-      }
-      Node.new common_prefix, Set[], descendants
     end
 
     # Return values matched to word.
