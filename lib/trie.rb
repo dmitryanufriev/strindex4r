@@ -1,3 +1,8 @@
+# Copyright (c) 2020 Dmitry Anufriev
+#
+# This software is released under the MIT License.
+# https://opensource.org/licenses/MIT
+
 # frozen_string_literal: true
 
 require_relative 'node'
