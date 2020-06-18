@@ -1,3 +1,8 @@
+# Copyright (c) 2020 Dmitry Anufriev
+#
+# This software is released under the MIT License.
+# https://opensource.org/licenses/MIT
+
 # frozen_string_literal: true
 
 require 'rspec'
@@ -74,6 +79,18 @@ describe 'Trie::Node' do
         [1, 'lo', [10]],
         [1, 'p', [20]]
       ]
+    end
+
+    it "should raise ArgumentError when word has no common prefix with node's prefix" do
+      expect { Trie::Node.new('hello', [10].to_set).add('abc', 10) }.to raise_error(ArgumentError)
+    end
+
+    it 'should raise ArgumentError when word is nil' do
+      expect { Trie::Node.new('hello', [10].to_set).add(nil, 10) }.to raise_error(ArgumentError)
+    end
+
+    it 'should raise ArgumentError when word is empty' do
+      expect { Trie::Node.new('hello', [10].to_set).add('', 10) }.to raise_error(ArgumentError)
     end
   end
 
