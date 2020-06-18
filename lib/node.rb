@@ -17,12 +17,18 @@ class Trie
       @descendants = descendants
     end
 
-    # Add word with value to node.
+    ###
+    # Add word with value.
     #
-    # @param [String] word
-    # @param [Object] value
-    # @return node with new value
-    # @raise ArgumentError when word is nil or empty.
+    # If node already contains the word, then value will be added to existing one. For example, there is node with word
+    # 'hello' and value 10, after adding 'hello' with value 20 there will be node with word 'hello' and values 10, 20.
+    # Search by 'hello' will return both.
+    #
+    # @param [String] word is the index pointed to the value.
+    # @param [Object] value is the value.
+    # @return Node with the word and the value.
+    # @raise ArgumentError when the word has no common prefix with the prefix in the node.
+    ###
     def add(word, value)
       common_prefix = CommonPrefix.new(@prefix, word).max
       raise ArgumentError, "Node '#{@prefix}' has no common prefix with word '#{word}'" if common_prefix.blank?
@@ -50,7 +56,7 @@ class Trie
     # Return values matched to word.
     #
     # @param [String] word is a word for search.
-    # @param [Symbol] match is a type of match. Can be either *:exact* or *:starts_with*. When match is :exact then values will be returned for word which exactly equal to +word+. When match is :starts_with then values will be returned for words which prefix is equal to +word+. Default value is :starts_with.
+    # @param [Symbol] match is a type of match. Can be either *:exact* or *:starts_with*.
     # @return enumerable of values or empty if no words matched to 'word' parameter found.
     def values(word, match = :starts_with)
       Enumerator.new do |yld|
