@@ -30,7 +30,7 @@ class Trie
       sffx_p = @prefix.suffix(common_prefix)
       sffx_w = word.suffix(common_prefix)
       if sffx_p.empty? && sffx_w.empty? # Case A: @prefix:hello - word:hello
-        Node.new(@prefix, @values << value, @descendants)
+        Node.new @prefix, @values << value, @descendants
       elsif sffx_p.empty? # Case B: @prefix:hell - word:hello
         Node.new @prefix, @values, @descendants.merge(
           { sffx_w[0] => @descendants[sffx_w[0]]&.add(sffx_w, value) || Node.new(sffx_w, Set[value]) }
