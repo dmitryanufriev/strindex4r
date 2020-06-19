@@ -59,7 +59,6 @@ class Trie
     # @param [Symbol] match is a type of match. Can be either *:exact* or *:starts_with*.
     # @return enumerable of values or empty if no words matched to 'word' parameter found.
     def values(word, match: :starts_with)
-      p match
       Enumerator.new do |yld|
         if @prefix == word || match == :starts_with && @prefix.start_with?(word)
           @values.each { |value| yld << value }
