@@ -58,7 +58,8 @@ class Trie
     # @param [String] word is a word for search.
     # @param [Symbol] match is a type of match. Can be either *:exact* or *:starts_with*.
     # @return enumerable of values or empty if no words matched to 'word' parameter found.
-    def values(word, match = :starts_with)
+    def values(word, match: :starts_with)
+      p match
       Enumerator.new do |yld|
         if @prefix == word || match == :starts_with && @prefix.start_with?(word)
           @values.each { |value| yld << value }
@@ -70,7 +71,7 @@ class Trie
         else
           suffix = word.suffix(CommonPrefix.new(@prefix, word).max)
           key = suffix[0]
-          @descendants[key].values(suffix, match).each { |value| yld << value } if @descendants.key?(key)
+          @descendants[key].values(suffix, match: match).each { |value| yld << value } if @descendants.key?(key)
         end
       end
     end
