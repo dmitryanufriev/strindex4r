@@ -62,9 +62,9 @@ class Trie
       common_prefix = CommonPrefix.new(@prefix, index).max
       return if common_prefix.empty?
 
-      sffx = index.suffix(common_prefix)
-      if sffx.empty?
-        Enumerator.new do |yld|
+      Enumerator.new do |yld|
+        sffx = index.suffix(common_prefix)
+        if sffx.empty?
           case match
           when :exact
             @values.each { |value| yld << value } if @prefix == index
@@ -76,9 +76,7 @@ class Trie
               end
             end
           end
-        end
-      else
-        Enumerator.new do |yld|
+        else
           @descendants[sffx[0]]&.values(sffx, match: match)&.each { |value| yld << value }
         end
       end
