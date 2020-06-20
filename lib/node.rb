@@ -60,17 +60,26 @@ class Trie
     # @return enumerable of values or empty if no words matched to 'word' parameter found.
     def values(word, match: :starts_with)
       Enumerator.new do |yld|
-        if @prefix == word || match == :starts_with && @prefix.start_with?(word)
-          @values.each { |value| yld << value }
-          if match == :starts_with
-            @descendants.values.each do |descendant|
-              descendant.traverse { |_depth, _word, values| values.each { |value| yld << value } }
-            end
+        case match
+        when :exact
+          if @prefix == word
+            @values.each { |value| yld << value }
+          else
+            common_prefix = CommonPrefix.new(@prefix, word).max
+            sffx = word.suffix(common_prefix)
+            @descendants[sffx[0]]&.values(sffx, match: match)&.each { |value| yld << value }
           end
-        else
-          suffix = word.suffix(CommonPrefix.new(@prefix, word).max)
-          key = suffix[0]
-          @descendants[key].values(suffix, match: match).each { |value| yld << value } if @descendants.key?(key)
+        when :starts_with
+          if @prefix.start_with? word
+            @values.each { |value| yld << value }
+            @descendants.values.each do |descendant|
+              descendant.traverse { |_d, _w, values| values.each { |value| yld << value } }
+            end
+          else
+            common_prefix = CommonPrefix.new(@prefix, word).max
+            sffx = word.suffix(common_prefix)
+            @descendants[sffx[0]]&.values(sffx, match: match)&.each { |value| yld << value }
+          end
         end
       end
     end

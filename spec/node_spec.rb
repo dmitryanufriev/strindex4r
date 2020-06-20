@@ -90,21 +90,22 @@ describe 'Trie::Node' do
 
   context 'values' do
     let(:node) do
-      Trie::Node.new('hello', [10].to_set)
+      Trie::Node.new('hel', [1].to_set)
+                .add('hello', 10)
                 .add('help', 20)
                 .add('hell', 30)
     end
 
-    it 'should return value for exactly matched word' do
+    it ':exact should return value for exactly matched word' do
       expect(node.values('hello', match: :exact).to_a).to eql [10]
     end
 
-    it 'should return empty when no exactly matched word' do
-      expect(node.values('hel', match: :exact).to_a.empty?).to be true
+    it ':exact should return empty when no exactly matched word' do
+      expect(node.values('he', match: :exact).to_a).to eql []
     end
 
     it 'should return values for all matched words' do
-      expect(node.values('hel', match: :starts_with).to_a.sort).to eql [10, 20, 30]
+      expect(node.values('hel', match: :starts_with).to_a.sort).to eql [1, 10, 20, 30]
     end
 
     it 'should return values for first few letters of words' do
@@ -116,7 +117,7 @@ describe 'Trie::Node' do
     end
 
     it 'should return values for first letter of words' do
-      expect(node.values('h', match: :starts_with).to_a.sort).to eql [10, 20, 30]
+      expect(node.values('h', match: :starts_with).to_a.sort).to eql [1, 10, 20, 30]
     end
   end
 end
