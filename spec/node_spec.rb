@@ -104,12 +104,16 @@ describe 'Trie::Node' do
       expect(node.values('he', match: :exact).to_a).to eql []
     end
 
+    it ':exact should return empty when no matched word' do
+      expect(node.values('abc', match: :exact).to_a).to eql []
+    end
+
     it 'should return values for all matched words' do
-      expect(node.values('hel', match: :starts_with).to_a.sort).to eql [1, 10, 20, 30]
+      expect(node.values('hel', match: :start_with).to_a.sort).to eql [1, 10, 20, 30]
     end
 
     it 'should return values for first few letters of words' do
-      expect(node.values('hell', match: :starts_with).to_a.sort).to eql [10, 30]
+      expect(node.values('hell', match: :start_with).to_a.sort).to eql [10, 30]
     end
 
     it 'should return empty when no word matched to first few letters' do
@@ -117,7 +121,7 @@ describe 'Trie::Node' do
     end
 
     it 'should return values for first letter of words' do
-      expect(node.values('h', match: :starts_with).to_a.sort).to eql [1, 10, 20, 30]
+      expect(node.values('h', match: :start_with).to_a.sort).to eql [1, 10, 20, 30]
     end
   end
 end
