@@ -53,22 +53,28 @@ class Trie
       end
     end
 
-    # Return values matched to word.
+    ###
+    # Values matched to the index.
     #
-    # @param [String] index is a word for search.
-    # @param [Symbol] match is a type of match. Can be either *:exact* or *:starts_with*.
-    # @return enumerable of values or empty if no words matched to 'word' parameter found.
-    def values(index, match: :starts_with)
+    # When 'match' param is *:exact*, then exact value of the index will be searched. So, if the value of the index
+    # is 'abc' then prefix in the node should be exactly 'abc'. If prefix in the node is different ('ab' or 'abcd'
+    # and so on), then empty result will be returned.
+    #
+    # @param index [String] is a word for search.
+    # @param match [Symbol] is a type of match. Can be either *:exact* or *:start_with*.
+    # @return Enumerable of values or empty or nil if index not found.
+    ###
+    def values(index, match: :start_with)
       common_prefix = CommonPrefix.new(@prefix, index).max
       return if common_prefix.empty?
 
       Enumerator.new do |yld|
-        sffx = index.suffix(common_prefix)
-        if sffx.empty?
+        sffx_i = index.suffix(common_prefix)
+        if sffx_i.empty? # there is node for the index found
           case match
           when :exact
             @values.each { |value| yld << value } if @prefix == index
-          when :starts_with
+          when :start_with
             if @prefix.start_with? index
               @values.each { |value| yld << value }
               @descendants.values.each do |descendant|
@@ -76,8 +82,8 @@ class Trie
               end
             end
           end
-        else
-          @descendants[sffx[0]]&.values(sffx, match: match)&.each { |value| yld << value }
+        else # try to get values from descendant nodes matched to the suffix of the index
+          @descendants[sffx_i[0]]&.values(sffx_i, match: match)&.each { |value| yld << value }
         end
       end
     end
