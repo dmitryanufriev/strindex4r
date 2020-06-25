@@ -12,8 +12,11 @@ class Trie
   # Node which contains prefix and subnodes with suffixes.
   class Node
     def initialize(prefix, values, descendants = {})
+      # @type [String]
       @prefix = prefix
+      # @type [Set]
       @values = values
+      # @type [Hash]
       @descendants = descendants
     end
 
@@ -24,9 +27,9 @@ class Trie
     # 'hello' and value 10, after adding 'hello' with value 20 there will be node with word 'hello' and values 10, 20.
     # Search by 'hello' will return both, 10 and 20.
     #
-    # @raise ArgumentError when the word has no common prefix with the prefix in the node.
     # @param word [String] is the index pointed to the value.
     # @param value [Object] is the value.
+    # @raise ArgumentError when the word has no common prefix with the prefix in the node.
     # @return Node with the word and the value.
     ###
     def add(word, value)
