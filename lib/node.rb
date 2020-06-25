@@ -22,12 +22,12 @@ class Trie
     #
     # If node already contains the word, then value will be added to existing one. For example, there is node with word
     # 'hello' and value 10, after adding 'hello' with value 20 there will be node with word 'hello' and values 10, 20.
-    # Search by 'hello' will return both.
+    # Search by 'hello' will return both, 10 and 20.
     #
-    # @param [String] word is the index pointed to the value.
-    # @param [Object] value is the value.
-    # @return Node with the word and the value.
     # @raise ArgumentError when the word has no common prefix with the prefix in the node.
+    # @param word [String] is the index pointed to the value.
+    # @param value [Object] is the value.
+    # @return Node with the word and the value.
     ###
     def add(word, value)
       common_prefix = CommonPrefix.new(@prefix, word).max
@@ -56,13 +56,16 @@ class Trie
     ###
     # Values matched to the index.
     #
-    # When 'match' param is *:exact*, then exact value of the index will be searched. So, if the value of the index
-    # is 'abc' then prefix in the node should be exactly 'abc'. If prefix in the node is different ('ab' or 'abcd'
-    # and so on), then empty result will be returned.
+    # When +match+ param is *:exact*, then exact value of the index will be searched. For example, if the index is 'abc'
+    # then prefix in the node should be exactly 'abc'. If prefix in the node is different ('ab' or 'abcd' and so on),
+    # then empty result will be returned.
+    #
+    # When +match+ param is *:start_with* then prefix in the node should start with the index value. For example, if the
+    # index is 'ab' then values from the nodes with prefixes 'ab', 'abc' and so on will be returned.
     #
     # @param index [String] is a word for search.
-    # @param match [Symbol] is a type of match. Can be either *:exact* or *:start_with*.
-    # @return Enumerable of values or empty or nil if index not found.
+    # @param match [Symbol] is a type of match. Can be either *:exact* or *:start_with*. Default is *:start_with*.
+    # @return Enumerable of values or empty.
     ###
     def values(index, match: :start_with)
       common_prefix = CommonPrefix.new(@prefix, index).max
@@ -70,7 +73,7 @@ class Trie
 
       Enumerator.new do |yld|
         sffx_i = index.suffix(common_prefix)
-        if sffx_i.empty? # there is node for the index found
+        if sffx_i.empty? # node for the index was found
           case match
           when :exact
             @values.each { |value| yld << value } if @prefix == index
